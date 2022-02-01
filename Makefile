@@ -72,7 +72,7 @@ test-integration:
 	@(docker stop minio)
 
 test-permissions:
-	@(docker run -d --name minio --rm -p 9000:9000 quay.io/minio/minio:latest server /data{1...4})
+	@(docker run -d --name minio --rm -p 9000:9000 minio/minio:manual-test server /data{1...4})
 	@(env bash $(PWD)/portal-ui/tests/scripts/permissions.sh)
 	@(docker stop minio)
 
