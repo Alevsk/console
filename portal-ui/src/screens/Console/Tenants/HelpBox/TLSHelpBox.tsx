@@ -14,8 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import React from "react";
+import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
 import CertificateIcon from "../../../../icons/CertificateIcon";
+import { AppState } from "../../../../store";
 
 const FeatureItem = ({
   icon,
@@ -44,6 +46,18 @@ const FeatureItem = ({
   );
 };
 const TLSHelpBox = () => {
+  const namespace = useSelector(
+    (state: AppState) =>  { 
+      return typeof state.createTenant.fields.nameTenant.namespace != undefined && state.createTenant.fields.nameTenant.namespace ? state.createTenant.fields.nameTenant.namespace : "<namespace>" 
+    }
+  );
+
+  const tenantName = useSelector(
+    (state: AppState) => {
+      return typeof state.createTenant.fields.nameTenant.tenantName != undefined && state.createTenant.fields.nameTenant.tenantName ? state.createTenant.fields.nameTenant.tenantName : "<tenant-name>"
+    }
+  );
+
   return (
     <Box
       sx={{
@@ -79,16 +93,15 @@ const TLSHelpBox = () => {
           <div
             style={{ fontSize: "14px", fontStyle: "italic", color: "#5E5E5E" }}
           >
-            minio.&#x3C;namespace&#x3E;
+            minio.{namespace}
             <br />
-            minio.&#x3C;namespace&#x3E;.svc
+            minio.{namespace}.svc
             <br />
-            minio.&#x3C;namespace&#x3E;.svc.&#x3C;cluster domain&#x3E;
+            minio.{namespace}.svc.&#x3C;cluster domain&#x3E;
             <br />
-            *.&#x3C;tenant-name&#x3E;-hl.&#x3C;namespace&#x3E;.svc.&#x3C;cluster
-            domain&#x3E;
+            *.{tenantName}-hl.{namespace}.svc.&#x3C;cluster domain&#x3E;
             <br />
-            *.&#x3C;namespace&#x3E;.svc.&#x3C;cluster domain&#x3E;
+            *.{namespace}.svc.&#x3C;cluster domain&#x3E;
           </div>
           <br />
           Replace <em>&#x3C;tenant-name&#x3E;</em>,{" "}
